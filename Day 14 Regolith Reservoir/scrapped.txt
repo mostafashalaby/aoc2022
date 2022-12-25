@@ -1,0 +1,47 @@
+def bottom_out(cx, cy):
+    cur = mine[cy][cx]
+    nxt = mine[cy + 1][cx]
+    while nxt == RESOURCES[AIR]:
+        cy += 1
+        cur = mine[cy][cx]
+        nxt = mine[cy + 1][cx]
+    return cx, cy
+
+cx, cy = bottom_out(cx, cy)
+
+    dia_left = mine[cy+1][cx-1]
+    dia_right = mine[cy+1][cx+1]
+
+    if dia_left == RESOURCES[AIR]:
+        cy += 1
+        cx -= 1
+        dia_left = mine[cy+1][cx-1]
+        while dia_left == RESOURCES[AIR]:
+            cy += 1
+            cx -= 1
+            dia_left = mine[cy + 1][cx - 1]
+        if is_void(mine[cy][cx]):
+            eternal_fall_reached = True
+            return eternal_fall_reached
+        mine[cy][cx] = RESOURCES[SAND]
+        return eternal_fall_reached
+    elif dia_right == RESOURCES[AIR]:
+        cy += 1
+        cx += 1
+        dia_right = mine[cy + 1][cx + 1]
+        while dia_right == RESOURCES[AIR]:
+            cy += 1
+            cx += 1
+            dia_right = mine[cy + 1][cx + 1]
+        if is_void(mine[cy][cx]):
+            eternal_fall_reached = True
+            return eternal_fall_reached
+        mine[cy][cx] = RESOURCES[SAND]
+        return eternal_fall_reached
+    else:
+        if is_void(mine[cy][cx]):
+            eternal_fall_reached = True
+            return eternal_fall_reached
+        mine[cy][cx] = RESOURCES[SAND]
+        return eternal_fall_reached
+    return False
